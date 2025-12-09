@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LiveAtlas Video Call</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* FULL SCREEN REMOTE VIDEO */
+        #remote-video {
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            position: absolute;
+            top: 0;
+            left: 0;
+            object-fit: cover; 
+            z-index: 1;
+        }
+
+        /* SMALL FLOATING LOCAL PREVIEW */
+        #local-video {
+            width: 120px;
+            height: 180px;
+            background: black;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            border-radius: 10px;
+            border: 2px solid white;
+            z-index: 2;
+        }
+
+        /* BUTTONS */
+        #join, #leave {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            padding: 12px 20px;
+            border: none;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        #join {
+            background: #28a745;
+            color: white;
+        }
+
+        #leave {
+            background: #dc3545;
+            color: white;
+            left: 120px;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- FULL SCREEN REMOTE VIDEO -->
+    <div id="remote-video"></div>
+
+    <!-- SMALL LOCAL VIDEO -->
+    <div id="local-video"></div>
+
+    <!-- BUTTONS -->
+    <button id="join">Join Call</button>
+    <button id="leave">Leave Call</button>
+
+    <!-- SCRIPT -->
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
