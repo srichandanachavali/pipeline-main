@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LiveAtlas Video Call</title>
+    <title>WebRTC Video Call</title>
 
     <style>
         body {
@@ -38,19 +38,38 @@
             border-radius: 10px;
             border: 2px solid white;
             z-index: 2;
+            object-fit: cover;
         }
 
-        /* BUTTONS */
-        #join, #leave {
+        /* CONTROLS */
+        .controls {
             position: absolute;
             bottom: 20px;
             left: 20px;
+            z-index: 3;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .room-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
             padding: 12px 20px;
             border: none;
             font-size: 16px;
             border-radius: 6px;
             cursor: pointer;
-            z-index: 3;
         }
 
         #join {
@@ -61,7 +80,18 @@
         #leave {
             background: #dc3545;
             color: white;
-            left: 120px;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #status {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
         }
     </style>
 
@@ -69,14 +99,20 @@
 <body>
 
     <!-- FULL SCREEN REMOTE VIDEO -->
-    <div id="remote-video"></div>
+    <video id="remote-video" autoplay playsinline></video>
 
     <!-- SMALL LOCAL VIDEO -->
-    <div id="local-video"></div>
+    <video id="local-video" autoplay playsinline muted></video>
 
-    <!-- BUTTONS -->
-    <button id="join">Join Call</button>
-    <button id="leave">Leave Call</button>
+    <!-- CONTROLS -->
+    <div class="controls">
+        <div class="room-input">
+            <input type="text" id="room-id" placeholder="Enter Room ID" value="room123" />
+            <button id="join">Join Call</button>
+            <button id="leave" disabled>Leave Call</button>
+        </div>
+        <div id="status">Ready to connect</div>
+    </div>
 
     <!-- SCRIPT -->
     <script type="module" src="/src/main.js"></script>
