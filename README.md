@@ -26,6 +26,8 @@ npm run dev
 
 The app will be available at `http://localhost:5173`
 
+**Note:** The signaling server is already deployed at `wss://pipeline-main-1.onrender.com` and ready to use!
+
 ## How to Use
 
 1. Open the application in your browser

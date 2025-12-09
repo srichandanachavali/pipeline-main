@@ -1,10 +1,25 @@
-// Simple WebRTC Video Chat Application
-// Uses a public signaling server for demo purposes
+// WebRTC Video Chat Application - Production Ready
+// Signaling server hosted on Render: https://pipeline-main-1.onrender.com
 
 const configuration = {
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' }
+        { urls: 'stun:stun1.l.google.com:19302' },
+        {
+            urls: 'turn:openrelay.metered.ca:80',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+        },
+        {
+            urls: 'turn:openrelay.metered.ca:443',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+        },
+        {
+            urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+            username: 'openrelayproject',
+            credential: 'openrelayproject'
+        }
     ]
 };
 
@@ -88,8 +103,8 @@ function createPeerConnection() {
 
 // Connect to signaling server (using a simple WebSocket approach)
 function connectSignaling() {
-    // Using local signaling server
-    const WS_URL = 'https://pipeline-main.onrender.com:3001';
+    // Production signaling server on Render
+    const WS_URL = 'wss://pipeline-main-1.onrender.com';
     
     signalingSocket = new WebSocket(WS_URL);
 
