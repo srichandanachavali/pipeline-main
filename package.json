@@ -9,10 +9,8 @@
     "preview": "vite preview",
     "start": "node signaling-server.js"
   },
-  "devDependencies": {
-    "vite": "^7.3.0"
-  },
   "dependencies": {
+    "vite": "^7.3.0",
     "ws": "^8.18.3"
   }
 }
