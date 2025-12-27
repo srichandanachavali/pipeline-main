@@ -1,5 +1,5 @@
 // WebRTC Video Chat Application - Production Ready
-// Signaling server hosted on Render: https://pipeline-main-1.onrender.com
+// Signaling server hosted on Render: Automatic WS endpoint
 
 const configuration = {
     iceServers: [
@@ -103,9 +103,9 @@ function createPeerConnection() {
 
 // Connect to signaling server (using a simple WebSocket approach)
 function connectSignaling() {
-    // Production signaling server on Render
-    const WS_URL = 'wss://pipeline-main-1.onrender.com';
-    
+    // 🔥 Automatically use deployed URL
+    const WS_URL = window.location.origin.replace(/^http/, 'ws');
+
     signalingSocket = new WebSocket(WS_URL);
 
     signalingSocket.onopen = () => {
@@ -121,7 +121,6 @@ function connectSignaling() {
     signalingSocket.onerror = (error) => {
         console.error('Signaling error:', error);
         updateStatus('Signaling server error - using fallback');
-        // Fallback: show manual signaling instructions
         showManualSignaling();
     };
 
@@ -141,7 +140,6 @@ function sendSignal(message) {
 async function handleSignalingMessage(data) {
     switch (data.type) {
         case 'ready':
-            // Another peer is ready, create offer
             updateStatus('Peer found, creating offer...');
             await createOffer();
             break;
@@ -244,17 +242,13 @@ async function joinCall() {
     joinButton.disabled = true;
     updateStatus('Initializing...');
 
-    // Get local media
     const mediaReady = await initLocalStream();
     if (!mediaReady) {
         joinButton.disabled = false;
         return;
     }
 
-    // Create peer connection
     createPeerConnection();
-
-    // Connect to signaling server
     connectSignaling();
 
     leaveButton.disabled = false;
@@ -264,33 +258,28 @@ async function joinCall() {
 
 // Leave call
 function leaveCall() {
-    // Close peer connection
     if (peerConnection) {
         peerConnection.close();
         peerConnection = null;
     }
 
-    // Close signaling connection
     if (signalingSocket) {
         sendSignal({ type: 'leave', room: roomId });
         signalingSocket.close();
         signalingSocket = null;
     }
 
-    // Stop local stream
     if (localStream) {
         localStream.getTracks().forEach(track => track.stop());
         localStream = null;
         localVideo.srcObject = null;
     }
 
-    // Clear remote video
     if (remoteVideo.srcObject) {
         remoteVideo.srcObject.getTracks().forEach(track => track.stop());
         remoteVideo.srcObject = null;
     }
 
-    // Reset UI
     joinButton.disabled = false;
     leaveButton.disabled = true;
     roomInput.disabled = false;
